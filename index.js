@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   DOM.todoList.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
+      const cmd = new Command(Commands.DELETE, event);
+      CommandExecutor.execute(cmd);
     }
   });
 });
