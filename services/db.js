@@ -11,6 +11,7 @@ export function initMockDB(sample, count = 100, page = 10) {
   data = Array.from({ length: Math.ceil(data.length / page) }, (x, i) =>
     data.slice(i * page, i * page + page),
   );
+
   let index = -1;
   function getPage(pointer) {
     return new Promise((res) => {
@@ -19,5 +20,6 @@ export function initMockDB(sample, count = 100, page = 10) {
       }, 1000);
     });
   }
+  
   return { getPage };
 }
