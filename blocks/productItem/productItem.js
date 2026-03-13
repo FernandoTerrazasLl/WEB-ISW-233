@@ -12,7 +12,7 @@ export default class ProductItem extends HTMLElement {
     this.appendChild(content);
 
     const product = JSON.parse(this.dataset.product);
-    this.querySelector("h3").textContent = product.name;
+    this.querySelector("h3").textContent = product.title;
     this.querySelector("img").src = `${product.imageUrl}`;
     this.querySelector("p.product-card__description").textContent = `${product.description}`;
     this.querySelector("p.product-card__price").textContent = `${product.price}`;

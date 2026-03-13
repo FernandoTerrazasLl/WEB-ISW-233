@@ -1,3 +1,7 @@
+import "../blocks/restaurantsPage/restaurantsPage.js";
+import "../blocks/productDetail/productDetail.js";
+import "../blocks/orderPage/orderPage.js";
+
 const Router = {
   init: () => {
     document.querySelectorAll("a.nav__link").forEach((a) => {
@@ -17,45 +21,29 @@ const Router = {
     if (addToHistory) {
       history.pushState({ route }, "", route);
     }
+
+    const routeMap = {
+      "/": () => document.createElement("menu-page"),
+      "/products": () => document.createElement("menu-page"),
+      "/restaurants": () => document.createElement("restaurants-page"),
+      "/order": () => document.createElement("order-page"),
+    };
+
     let pageElement = null;
-    switch (route) {
-      case "/":
-        pageElement = document.createElement("menu-page");
-        break;
-      case "/products":
-        pageElement = document.createElement("menu-page");
-        break;
-      case "/restaurants":
-        pageElement = document.createElement("h1");
-        pageElement.textContent = "Restaurants Page";
-        break;
-      case "/order":
-        pageElement = document.createElement("h1");
-        pageElement.textContent = "Order Page";
-        break;
-      default:
-        if (route.startsWith("/products/")) {
-          pageElement = document.createElement("h2");
-
-          const paramId = route.substring(route.lastIndexOf("/") + 1);
-          pageElement.textContent = "Product detail page: " + String(paramId);
-
-          pageElement.dataset.productId = paramId;
-        }
-        break;
+    if (routeMap[route]) {
+      pageElement = routeMap[route]();
+    } else if (route.startsWith("/products/")) {
+      const id = route.split("/").pop();
+      const detail = document.createElement("product-detail");
+      detail.dataset.productId = id;
+      pageElement = detail;
     }
+
     if (pageElement) {
-      let currentPage = document.querySelector("main").firstElementChild;
-      if (currentPage) {
-        currentPage.remove();
-        document.querySelector("main").appendChild(pageElement);
-      } else {
-        document.querySelector("main").appendChild(pageElement);
-      }
+      document.querySelector("main").replaceChildren(pageElement);
     }
-
-    window.scrollY = 0;
-    window.scrollX = 0;
+    
+    window.scrollTo(0, 0);
   },
 };
 

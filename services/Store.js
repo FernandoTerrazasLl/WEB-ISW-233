@@ -6,14 +6,15 @@ const Store = {
 const proxiedStore = new Proxy(Store, {
   set(target, property, value) {
     target[property] = value;
-    if (property == "menu") {
-      window.dispatchEvent(new Event("appmenuchange"));
-    }
-    if (property == "cart") {
-      window.dispatchEvent(new Event("appcartchange"));
+    // avisamos sólo cuando cambian estas propiedades clave
+    if (property === "menu" || property === "cart") {
+      window.dispatchEvent(new Event(`app${property}change`));
     }
     return true;
   },
+  get(target, property) {
+    return target[property];
+  }
 });
 
 export default proxiedStore;
